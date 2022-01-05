@@ -1,3 +1,5 @@
+//DUPLICATE FROM DATABASE FOLDER?? DELETE IF UNNECESSARY
+
 const fs = require('fs');
 // const { parse } = require('csv-parse');
 

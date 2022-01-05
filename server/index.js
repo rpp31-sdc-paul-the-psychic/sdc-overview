@@ -1,6 +1,6 @@
 const express = require('express')
 const app = express()
-const port = 3000
+const port = 3000;
 const path = require('path');
 const db = require('../database/index.js');
 // // const axios = require('axios');
@@ -24,7 +24,6 @@ app.get('/products/:product_id', (req, res) => {
    .then((result) => {
     console.log('success');
     // console.log(result);
-
     //transform response to match formatting
     result.default_price = parseFloat(result.default_price).toFixed(2);
 
@@ -35,7 +34,6 @@ app.get('/products/:product_id', (req, res) => {
     .catch((err) => {
       res.status(500).send(err).end();
     })
-
   // res.send('Getting product information')
 })
 
@@ -83,6 +81,8 @@ app.get('/products/:product_id/styles', (req, res) => {
     })
 })
 
-app.listen(port, () => {
-  return console.log(`Listening on port ${port}`)
-});
+// app.listen(port, () => {
+//   return console.log(`Listening on port ${port}`)
+// });
+
+module.exports = app;
