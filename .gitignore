@@ -1,2 +1,3 @@
 database/legacy-data/*
 /node_modules/
+/test/script.js
