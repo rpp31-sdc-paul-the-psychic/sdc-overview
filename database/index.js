@@ -26,6 +26,17 @@ let productSchema = mongoose.Schema({
   // ]
 });
 
+// Takes up more space to make a second collection, but is the retrieval faster to not worry about
+// features?
+// let productsSchema = mongoose.Schema({
+//   "id": Number,
+//   "name": String,
+//   "slogan": String,
+//   "description": String,
+//   "category": String,
+//   "default_price": String
+// });
+
 //update the schema?
 // let styleSchema = mongoose.Schema({
 //   "product_id": String,
@@ -66,9 +77,28 @@ let styleSchema = mongoose.Schema({
 
 let Product = mongoose.model('Products', productSchema);
 let Style = mongoose.model('Style', styleSchema, 'style');
+// let allProducts = mongoose.model('AllProducts', productsSchema, 'product');
+
+let getProducts = function(page, count) {
+  console.log(`getting ${count} products on page ${page}`);
+
+  let first = 59553 + count * (page - 1);
+  let last = first + (count - 1);
+
+  console.log('first', first);
+  console.log('last', last);
+  console.log(typeof first);
+  console.log(typeof last);
+
+  return Product.find({id: {$gte: first, $lte: last}})
+
+  // return Product.findOne({id: '59557'});
+}
+
 
 let getProductData = function(product_id) {
   console.log('getting data for ', product_id);
+  console.log(typeof product_id);
 
   return Product.findOne({id: product_id});
 }
@@ -84,6 +114,7 @@ let getStylesData = function(product_id) {
 }
 
 
+module.exports.getProducts = getProducts;
 module.exports.getProductData = getProductData;
 module.exports.getStylesData = getStylesData;
 

@@ -14,6 +14,52 @@ app.get('/', (req, res) => {
   res.send('Hello world')
 })
 
+
+//GET /products/:product_id
+app.get('/products/', (req, res) => {
+
+  console.log(req.query);
+
+  const page = req.query.page || 1;
+  const count = req.query.count || 5;
+
+  console.log(page);
+  console.log(count);
+
+  console.log('pinging get products');
+
+  let reformattedResults = [];
+
+  //try not returning all results instead of reformatting to drop the features
+  db.getProducts(page, count)
+   .then((result) => {
+    console.log('success');
+
+    for (let singleProduct of result) {
+      let reformattedResult = {
+        id: singleProduct.id,
+        name: singleProduct.name,
+        slogan: singleProduct.slogan,
+        description: singleProduct.description,
+        category: singleProduct.category,
+        default_price: parseFloat(singleProduct.default_price).toFixed(2)
+      }
+
+      reformattedResults.push(reformattedResult);
+      // singleProduct.default_price = parseFloat(singleProduct.default_price).toFixed(2);
+    }
+    //transform response to match formatting
+    console.log(reformattedResults);
+
+    //return the transformed response
+    res.status(200).send(reformattedResults);
+    // return response;
+  })
+    .catch((err) => {
+      res.status(500).send(err).end();
+    })
+})
+
 //GET /products/:product_id
 app.get('/products/:product_id', (req, res) => {
   let prod_id = req.params.product_id;
@@ -81,6 +127,7 @@ app.get('/products/:product_id/styles', (req, res) => {
     })
 })
 
+//moved to server.js for jest testing
 // app.listen(port, () => {
 //   return console.log(`Listening on port ${port}`)
 // });
