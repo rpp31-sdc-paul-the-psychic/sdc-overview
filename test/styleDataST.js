@@ -12,23 +12,16 @@ export const options = {
 // const max = Math.floor(1000000);
 // const id = Math.floor(Math.random() * (max - min) + min);
 
-// const BASE_URL = `http://localhost:3000/products/${id}`;
+// const BASE_URL = `http://localhost:3000/products/${id}/styles`;
 
 export default function () {
   const min = Math.ceil(900000);
   const max = Math.floor(1000000);
   const id = Math.floor(Math.random() * (max - min) + min);
 
-  const BASE_URL = `http://localhost:3000/products/${id}`;
+  const BASE_URL = `http://localhost:3000/products/${id}/styles`;
   http.get(BASE_URL);
 
-  // http.get('https://test.k6.io');
-  // sleep(1);
-
-  //test a range of ids - Math.random for last 10% of ids
-
-
-  //for time on an individual request - comment out lines 4-7 and 10-11
   // const res = http.get(BASE_URL);
   // console.log('Response time was ' + String(res.timings.duration) + ' ms');
 }
