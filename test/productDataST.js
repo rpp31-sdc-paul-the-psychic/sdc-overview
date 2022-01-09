@@ -1,11 +1,23 @@
 import http from 'k6/http';
-import { sleep } from 'k6';
+// import { sleep, check } from 'k6';
+import {check } from 'k6';
 // const app = require('../server/index.js');
 // const db = require('../database/index.js');
 
 export const options = {
-  vus: 1,
-  duration: '180s',
+  // vus: 200,
+  // duration: '120s',
+
+  scenarios: {
+    constant_request_rate: {
+      executor: 'constant-arrival-rate',
+      rate: 1000,
+      timeUnit: '1s',
+      duration: '2m',
+      preAllocatedVUs: 100,
+      maxVUs: 250,
+    },
+  },
 };
 
 // const min = Math.ceil(900000);
@@ -20,8 +32,15 @@ export default function () {
   const id = Math.floor(Math.random() * (max - min) + min);
 
   const BASE_URL = `http://localhost:3000/products/${id}`;
-  http.get(BASE_URL);
+  const response = http.get(BASE_URL);
 
+  check(response, {
+    "is status 200": (r) => r.status === 200,
+    "does response id match request id": (r) => {
+      const resId = Number(r.json("id"));
+      return resId === id;
+    }
+  })
   // http.get('https://test.k6.io');
   // sleep(1);
 
