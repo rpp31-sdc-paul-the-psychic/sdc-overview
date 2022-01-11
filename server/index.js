@@ -18,22 +18,22 @@ app.get('/', (req, res) => {
 //GET /products/:product_id
 app.get('/products/', (req, res) => {
 
-  console.log(req.query);
+  // console.log(req.query);
 
   const page = req.query.page || 1;
   const count = req.query.count || 5;
 
-  console.log(page);
-  console.log(count);
+  // console.log(page);
+  // console.log(count);
 
-  console.log('pinging get products');
+  // console.log('pinging get products');
 
   let reformattedResults = [];
 
   //try not returning all results instead of reformatting to drop the features
   db.getProducts(page, count)
    .then((result) => {
-    console.log('success');
+    // console.log('success');
 
     for (let singleProduct of result) {
       let reformattedResult = {
@@ -49,7 +49,7 @@ app.get('/products/', (req, res) => {
       // singleProduct.default_price = parseFloat(singleProduct.default_price).toFixed(2);
     }
     //transform response to match formatting
-    console.log(reformattedResults);
+    // console.log(reformattedResults);
 
     //return the transformed response
     res.status(200).send(reformattedResults);
@@ -64,11 +64,11 @@ app.get('/products/', (req, res) => {
 app.get('/products/:product_id', (req, res) => {
   let prod_id = req.params.product_id;
   // let prod_id = 59557;
-  console.log(prod_id);
+  // console.log(prod_id);
 
   db.getProductData(prod_id)
    .then((result) => {
-    console.log('success');
+    // console.log('success');
     // console.log(result);
     //transform response to match formatting
     result.default_price = parseFloat(result.default_price).toFixed(2);
@@ -87,7 +87,7 @@ app.get('/products/:product_id', (req, res) => {
 app.get('/products/:product_id/styles', (req, res) => {
   let prod_id = req.params.product_id;
 
-  console.log('getting styles for ', prod_id);
+  // console.log('getting styles for ', prod_id);
 
   db.getStylesData(prod_id)
     .then((result) => {
@@ -118,7 +118,7 @@ app.get('/products/:product_id/styles', (req, res) => {
 
         reformattedResult.results.push(reformattedStyle);
       }
-      console.log('reformattedResult', reformattedResult);
+      // console.log('reformattedResult', reformattedResult);
 
       res.status(200).send(reformattedResult);
     })

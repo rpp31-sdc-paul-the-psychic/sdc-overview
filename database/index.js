@@ -80,15 +80,15 @@ let Style = mongoose.model('Style', styleSchema, 'style');
 // let allProducts = mongoose.model('AllProducts', productsSchema, 'product');
 
 let getProducts = function(page, count) {
-  console.log(`getting ${count} products on page ${page}`);
+  // console.log(`getting ${count} products on page ${page}`);
 
   let first = 59553 + count * (page - 1);
   let last = first + (count - 1);
 
-  console.log('first', first);
-  console.log('last', last);
-  console.log(typeof first);
-  console.log(typeof last);
+  // console.log('first', first);
+  // console.log('last', last);
+  // console.log(typeof first);
+  // console.log(typeof last);
 
   return Product.find({id: {$gte: first, $lte: last}})
 
@@ -97,17 +97,17 @@ let getProducts = function(page, count) {
 
 
 let getProductData = function(product_id) {
-  console.log('getting data for ', product_id);
-  console.log(typeof product_id);
+  // console.log('getting data for ', product_id);
+  // console.log(typeof product_id);
 
   return Product.findOne({id: product_id});
 }
 
 
 let getStylesData = function(product_id) {
-  console.log('getting style data for ', product_id);
+  // console.log('getting style data for ', product_id);
 
-  let test = Style.find({productId: product_id});
+  // let test = Style.find({productId: product_id});
   // console.log('test', test);
   return Style.find({productId: product_id});
   // return 'testResponse'
