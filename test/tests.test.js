@@ -28,28 +28,59 @@ test('adds 1 + 1 to equal 2', () => {
 });
 
 
-describe('Unit tests', () => {
-  test('Tests that db.getProductData is called with the correct id', async () => {
+describe('GET /products/:product_id', () => {
+  test('should respond with a 200 status code', async () => {
     // const spy = jest.spyOn(app, 'db.getProductData');
-    const productData = jest.fn();
+    // const productData = jest.fn();
 
     const response = await request(app).get("/products/59557");
     // expect(db.getProductData).toHaveBeenCalledWith(59557);
     // expect(db.getProductData).toHaveBeenCalled();
-    expect(productData).toHaveBeenCalled();
+    // expect(productData).toHaveBeenCalled();
+    expect(response.statusCode).toBe(200);
   });
+
+  test("should specify json in the content type header", async () => {
+    const response = await request(app).get("/products/59557");
+    expect(response.headers['content-type']).toEqual(expect.stringContaining("json"))
+  })
+
+  test("response has user id", async () => {
+    const response = await request(app).get("/products/59557");
+    expect(response.body.id).toBeDefined()
+  })
+
+  test("response has user id which matches id requested", async () => {
+    const response = await request(app).get("/products/59557");
+    expect(response.body.id).toEqual(59557);
+  })
 });
 
-
-describe('Integration tests', () => {
-  test('Tests that an individual product id is returned', () => {
-
-    expect(2).toEqual(2);
+describe('GET /products/:product_id/styles', () => {
+  test('should respond with a 200 status code', async () => {
+    const response = await request(app).get("/products/59557/styles");
+    expect(response.statusCode).toBe(200);
   });
 
-  test('Tests that style data is returned for an individual product', () => {
+  test("should specify json in the content type header", async () => {
+    const response = await request(app).get("/products/59557/styles");
+    expect(response.headers['content-type']).toEqual(expect.stringContaining("json"))
+  })
 
-    expect(2).toEqual(2);
+  test("response has user id which matches id requested", async () => {
+    const response = await request(app).get("/products/59557");
+    expect(response.body.id).toEqual(59557);
+  })
+});
+
+describe('GET /products/', () => {
+  test('should respond with a 200 status code', async () => {
+    const response = await request(app).get("/products/");
+    expect(response.statusCode).toBe(200);
   });
-  // done();
+
+  test("should specify json in the content type header", async () => {
+    const response = await request(app).get("/products/");
+    expect(response.headers['content-type']).toEqual(expect.stringContaining("json"))
+  })
 });
