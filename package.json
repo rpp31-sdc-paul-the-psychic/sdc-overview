@@ -4,8 +4,8 @@
   "description": "Handles requests for the FEC Overview widget",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon server/index.js"
+    "test": "jest --forceExit",
+    "start": "nodemon server/server.js"
   },
   "repository": {
     "type": "git",
@@ -21,5 +21,12 @@
     "express": "^4.17.2",
     "mongoose": "^6.1.2",
     "nodemon": "^2.0.15"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "jest": "^27.4.7",
+    "superagent": "^6.1.0",
+    "supertest": "^6.1.6"
   }
 }
