@@ -183,8 +183,12 @@ module.exports.getStylesData = getStylesData;
 //     }
 // ], { "allowDiskUse" : true })
 
+//Create indexes
+
+
 //STEP 1 OF TRANSFORMATION
 //WORKED - CREATED PRODUCTS DB WITH COMBINED DATA
+
 //features._id wasn't removed?
 // db.product.aggregate([
 //   {
