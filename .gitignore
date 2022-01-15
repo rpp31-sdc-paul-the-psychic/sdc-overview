@@ -1,5 +1,6 @@
 database/legacy-data/*
 /node_modules/
 /test/script.js
+/coverage/*
 ec2LaunchScript.sh
 
