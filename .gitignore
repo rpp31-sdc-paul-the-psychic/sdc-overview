@@ -3,4 +3,6 @@ database/legacy-data/*
 /test/script.js
 /coverage/*
 ec2LaunchScript.sh
-
+/dump
+/coverage
+dump.gz
