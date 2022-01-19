@@ -64,7 +64,7 @@ app.get('/products/', (req, res) => {
 app.get('/products/:product_id', (req, res) => {
   let prod_id = req.params.product_id;
   // let prod_id = 59557;
-  console.log(prod_id);
+  // console.log(prod_id);
 
   db.getProductData(prod_id)
    .then((result) => {
