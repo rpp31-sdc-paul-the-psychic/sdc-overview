@@ -2,8 +2,17 @@ const fs = require('fs');
 // const { parse } = require('csv-parse');
 
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/sdc',
-  { useNewUrlParser: true, useUnifiedTopology: true });
+//connect to local db
+// mongoose.connect('mongodb://localhost/sdc',
+//connect to db from local, but would have to update public IPv4 address each time - can't connect to private IP from local
+// mongoose.connect('mongodb://23.22.252.33:27017/sdc',
+//connect to deployed db from production server
+mongoose.connect('mongodb://172.31.29.220:27017/sdc',
+  { useNewUrlParser: true, useUnifiedTopology: true }, function(err) {
+    if (err) {
+      console.log(err);
+    }
+  });
 
 let productSchema = mongoose.Schema({
   "id": Number,
