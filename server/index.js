@@ -9,7 +9,7 @@ const db = require('../database/index.js');
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use('/static', express.static(path.join(__dirname, 'loader')))
+app.use('/', express.static(path.join(__dirname, 'loader')))
 
 
 app.get('/', (req, res) => {
