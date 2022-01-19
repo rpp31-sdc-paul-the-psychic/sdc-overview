@@ -9,10 +9,14 @@ const db = require('../database/index.js');
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use('/', express.static(path.join(__dirname, 'loader')))
+app.get('/loaderio-9189b128e8cd9d2286256503483228fb.txt', (req, res) => {
 
+  // express.static(path.join(__dirname, 'loader')))
+  res.send('loaderio-9189b128e8cd9d2286256503483228fb.txt');
+})
 
 app.get('/', (req, res) => {
+
   res.send('Connected')
 })
 
