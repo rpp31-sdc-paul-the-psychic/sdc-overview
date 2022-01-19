@@ -1,11 +1,14 @@
 const fs = require('fs');
+require('dotenv').config();
 // const { parse } = require('csv-parse');
 
 const mongoose = require('mongoose');
+// let URIKey = process.env.DB_URI;
+
 //connect to local db
 // mongoose.connect('mongodb://localhost/sdc',
 //connect to db from local, but would have to update public IPv4 address each time - can't connect to private IP from local
-mongoose.connect('mongodb://23.22.252.33:27017/sdc',
+mongoose.connect(process.env.DB_URI,
 //connect to deployed db from production server
 // mongoose.connect('mongodb://172.31.29.220:27017/sdc',
   { useNewUrlParser: true, useUnifiedTopology: true }, function(err) {

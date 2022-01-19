@@ -6,3 +6,4 @@ ec2LaunchScript.sh
 /dump
 /coverage
 dump.gz
+.env
