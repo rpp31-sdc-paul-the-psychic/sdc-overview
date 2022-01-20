@@ -14,7 +14,7 @@ app.use(express.urlencoded({ extended: true }));
 app.get('/loaderio-9189b128e8cd9d2286256503483228fb.txt', (req, res) => {
 
   // express.static(path.join(__dirname, 'loader')))
-  res.sendFile('../loader/loaderio-9189b128e8cd9d2286256503483228fb.txt');
+  res.sendFile(path.join(__dirname, '../loader/loaderio-9189b128e8cd9d2286256503483228fb.txt'));
 
 })
 
