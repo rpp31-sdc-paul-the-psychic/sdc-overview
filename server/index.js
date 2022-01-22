@@ -25,9 +25,9 @@ redisClient.on('connect', function() {
 // redisClient.set("products", 'test');
 
 // app.use('/static', express.static(path.join(__dirname, 'public'))
-app.get('/loaderio-9189b128e8cd9d2286256503483228fb.txt', (req, res) => {
+app.get('/loaderio-0a45111fdd132747ca8de7e09ddd7b5e.txt', (req, res) => {
   // express.static(path.join(__dirname, 'loader')))
-  res.sendFile(path.join(__dirname, '../loader/loaderio-9189b128e8cd9d2286256503483228fb.txt'));
+  res.sendFile(path.join(__dirname, '../loader/loaderio-0a45111fdd132747ca8de7e09ddd7b5e.txt'));
 })
 
 app.get('/', (req, res) => {
