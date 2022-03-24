@@ -7,3 +7,5 @@ ec2LaunchScript.sh
 /coverage
 dump.gz
 .env
+newrelic.js
+newrelic_agent.log

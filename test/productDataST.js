@@ -27,7 +27,8 @@ export const options = {
 // const BASE_URL = `http://localhost:3000/products/${id}`;
 
 export default function () {
-  const min = Math.ceil(900000);
+  // const min = Math.ceil(900000);
+  const min = Math.ceil(1);
   const max = Math.floor(1000000);
   const id = Math.floor(Math.random() * (max - min) + min);
 

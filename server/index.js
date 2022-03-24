@@ -5,13 +5,14 @@ const path = require('path');
 const db = require('../database/index.js');
 // // const axios = require('axios');
 const Redis = require('redis');
+const newrelic = require('newrelic')
 
 // // app.use(express.static(__dirname + '/../client/dist'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // const redisClient = Redis.createClient(6379, '3.95.182.161', {no_ready_check: true});
-const redisClient = Redis.createClient(6379, '3.95.182.161');
+const redisClient = Redis.createClient(6379, '54.210.250.29');
 // const redisClient = Redis.createClient(); //connects to local redis
 // console.log(redisClient.json);
 const DEFAULT_EXPIRATION = 3600;  //one hour expiration
