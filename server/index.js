@@ -5,7 +5,7 @@ const path = require('path');
 const db = require('../database/index.js');
 // // const axios = require('axios');
 const Redis = require('redis');
-const newrelic = require('newrelic')
+// const newrelic = require('newrelic')
 
 // // app.use(express.static(__dirname + '/../client/dist'));
 app.use(express.json());
