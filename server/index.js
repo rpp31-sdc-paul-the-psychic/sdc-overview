@@ -3,7 +3,6 @@ const app = express()
 const port = 3000;
 const path = require('path');
 const db = require('../database/index.js');
-// // const axios = require('axios');
 const Redis = require('redis');
 // const newrelic = require('newrelic')
 
@@ -11,23 +10,14 @@ const Redis = require('redis');
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// const redisClient = Redis.createClient(6379, '3.95.182.161', {no_ready_check: true});
 const redisClient = Redis.createClient(6379, '54.210.250.29');
-// const redisClient = Redis.createClient(); //connects to local redis
-// console.log(redisClient.json);
 const DEFAULT_EXPIRATION = 3600;  //one hour expiration
-
-// await client.connect()
 
 redisClient.on('connect', function() {
   console.log('Connected to Redis.');
 });
 
-// redisClient.set("products", 'test');
-
-// app.use('/static', express.static(path.join(__dirname, 'public'))
 app.get('/loaderio-61e936a5a3b3d5c01c770f3fe6db642d.txt', (req, res) => {
-  // express.static(path.join(__dirname, 'loader')))
   res.sendFile(path.join(__dirname, '../loader/loaderio-61e936a5a3b3d5c01c770f3fe6db642d.txt'));
 })
 
@@ -37,25 +27,20 @@ app.get('/', (req, res) => {
 
 //GET /products/:product_id
 app.get('/products/', (req, res) => {
-  // console.log(req.query);
   const page = req.query.page || 1;
   const count = req.query.count || 5;
-  // console.log(page);
-  // console.log(count);
 
   redisClient.get(`products?page=${page}`, (error, products) => {
     if (error) {
       console.error(error);
     }
+
     if (products !== null) {
-      // return res.status(200).send(reformattedResults);
-      // console.log('cache hit');
       res.status(200).send(JSON.parse(products));
     } else {
-      // console.log('cache miss');
       let reformattedResults = [];
 
-      //try not returning all results instead of reformatting to drop the features
+      //future refactor - instead of returning all results, reformat to drop the features
       db.getProducts(page, count)
         .then((result) => {
           for (let singleProduct of result) {
@@ -69,16 +54,12 @@ app.get('/products/', (req, res) => {
             }
 
             reformattedResults.push(reformattedResult);
-            // singleProduct.default_price = parseFloat(singleProduct.default_price).toFixed(2);
           }
           redisClient.setex(`products?page=${page}`, DEFAULT_EXPIRATION, JSON.stringify(reformattedResults));
 
-          //return the transformed response
           res.status(200).send(reformattedResults);
-          // return response;
         })
         .catch((err) => {
-          // console.log(err);
           res.status(500).send(err).end();
         })
     }
@@ -88,31 +69,22 @@ app.get('/products/', (req, res) => {
 //GET /products/:product_id
 app.get('/products/:product_id', (req, res) => {
   let prod_id = req.params.product_id;
-  // let prod_id = 59557;
-  // console.log(prod_id);
 
   redisClient.get(`product:${prod_id}`, (error, product) => {
     if (error) {
       console.error(error);
     }
     if (product !== null) {
-      // return res.status(200).send(reformattedResults);
-      // console.log('cache hit');
       res.status(200).send(JSON.parse(product));
     } else {
-      // console.log('cache miss');
-
       db.getProductData(prod_id)
         .then((result) => {
-          // console.log('success');
-          // console.log(result);
           //transform response to match formatting
           result.default_price = parseFloat(result.default_price).toFixed(2);
 
           redisClient.setex(`product:${prod_id}`, DEFAULT_EXPIRATION, JSON.stringify(result));
           //return the transformed response
           res.status(200).send(result);
-          // return response;
         })
         .catch((err) => {
           res.status(500).send(err).end();
@@ -125,18 +97,13 @@ app.get('/products/:product_id', (req, res) => {
 app.get('/products/:product_id/styles', (req, res) => {
   let prod_id = req.params.product_id;
 
-  // console.log('getting styles for ', prod_id);
   redisClient.get(`product:${prod_id}/styles`, (error, styles) => {
     if (error) {
       console.error(error);
     }
     if (styles !== null) {
-      // return res.status(200).send(reformattedResults);
-      // console.log('cache hit');
       res.status(200).send(JSON.parse(styles));
     } else {
-      // console.log('cache miss');
-
       db.getStylesData(prod_id)
         .then((result) => {
           let reformattedResult = {
@@ -166,7 +133,6 @@ app.get('/products/:product_id/styles', (req, res) => {
 
             reformattedResult.results.push(reformattedStyle);
           }
-          // console.log('reformattedResult', reformattedResult);
           redisClient.setex(`product:${prod_id}/styles`, DEFAULT_EXPIRATION, JSON.stringify(reformattedResult));
 
           res.status(200).send(reformattedResult);
@@ -177,23 +143,6 @@ app.get('/products/:product_id/styles', (req, res) => {
     }
   })
 })
-
-//future refactor - implement helper function below
-// function getOrSetCache(key, cb) {
-//   return new Promise((resolve, reject) => {
-//     rediscClient.get(key, async (error, data) => {
-//       if (error) {
-//         return reject(error);
-//       }
-//       if (data !== null) {
-//         return resolve(JSON.parse(data));
-//       }
-//       const freshData = await cb();
-//       redisClient.setex(key, DEFAULT_EXPIRATION, JSON.stringify(freshData));
-//       resolve(freshData);
-//     })
-//   })
-// }
 
 //moved to server.js for jest testing
 // app.listen(port, () => {
