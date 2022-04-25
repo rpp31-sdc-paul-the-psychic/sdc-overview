@@ -47,7 +47,6 @@ export default function () {
 
   //test a range of ids - Math.random for last 10% of ids
 
-
   //for time on an individual request - comment out lines 4-7 and 10-11
   // const res = http.get(BASE_URL);
   // console.log('Response time was ' + String(res.timings.duration) + ' ms');

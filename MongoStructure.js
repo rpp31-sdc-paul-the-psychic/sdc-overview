@@ -1,5 +1,4 @@
 //Products - is this one necessary? - I don't think so - not worth the space to duplicate
-
 {
     "id": Number,
     "name": String,

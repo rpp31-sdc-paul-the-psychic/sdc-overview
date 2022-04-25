@@ -28,32 +28,6 @@ let productSchema = mongoose.Schema({
   // ]
 });
 
-//update the schema?
-// let styleSchema = mongoose.Schema({
-//   "product_id": String,
-//   "results": [
-//     {
-//       "style_id": Number,
-//       "name": String,
-//       "original_price": String,
-//       "sale_price": String,
-//       "default?": Boolean,
-//       "photos": [
-//         {
-//           "thumbnail_url": String,
-//           "url": String
-//         }
-//       ],
-//       "skus": {
-//         String: {
-//           "quantity": String,
-//           "size": String
-//         }
-//       }
-//     }
-//   ]
-// });
-
 let styleSchema = mongoose.Schema({
   "productId": Number, //changed from a string and this fixed the empty array
   "id": Number, //this will become style_id in the server
@@ -64,7 +38,6 @@ let styleSchema = mongoose.Schema({
   "photos": Array,
   "skus": Array
 })
-
 
 let Product = mongoose.model('Products', productSchema);
 let Style = mongoose.model('Style', styleSchema, 'style');
@@ -80,11 +53,8 @@ let getStylesData = function(product_id) {
   console.log('getting style data for ', product_id);
 
   let test = Style.find({productId: product_id});
-  // console.log('test', test);
   return Style.find({productId: product_id});
-  // return 'testResponse'
 }
-
 
 module.exports.getProductData = getProductData;
 module.exports.getStylesData = getStylesData;
@@ -155,8 +125,7 @@ module.exports.getStylesData = getStylesData;
 // ], { "allowDiskUse" : true })
 
 //STEP 1 OF TRANSFORMATION
-//WORKED - CREATED PRODUCTS DB WITH COMBINED DATA
-//features._id wasn't removed?
+//CREATE PRODUCTS DB WITH COMBINED DATA
 // db.product.aggregate([
 //   {
 //     $lookup:
@@ -178,7 +147,6 @@ module.exports.getStylesData = getStylesData;
 //     $out: "products"
 //   }
 // ])
-
 
 //STEP 2 OF TRANSFORMATION
 //CREATE NEW DB WITH STYLES AND PHOTOS
@@ -251,137 +219,3 @@ module.exports.getStylesData = getStylesData;
 //     $out: "products"
 //   }
 // ])
-
-
-
-
-// console.log('test');
-// const records = [];
-
-// // Add the product data to the database
-// // id,name,slogan,description,category,default_price
-// fs.createReadStream("./legacy-data/product.csv")
-//     .pipe(parse({delimiter: ','}))
-//     .on('data', function(csvrow) {
-//         // console.log('test1', csvrow); // this prints after every row is handled
-//         //do something with csvrow
-//       // console.log('test', typeof csvrow[0]);
-//         let convertedRecord = {
-//           "id": Number(csvrow[0]),
-//           "name": csvrow[1],
-//           "slogan": csvrow[2],
-//           "description": csvrow[3],
-//           "category": csvrow[4],
-//           "default_price": csvrow[5]
-//         }
-//         records.push(convertedRecord);
-//         // records.push(csvrow);
-//     })
-//     .on('end',function() {
-//       //do something with csvData
-//       console.log('test2', records); //this prints after all rows are handled
-//       Product.insertMany(records, function(error, docs) {
-//         if (error) {
-//           console.log(error);
-//         } else {
-//           console.log(docs);
-//         }
-//       });
-//     });
-
-//read csv file line by line
-//separate by comma
-//insert into mongo db
-
-// RAN OUT OF MEMORY
-// FATAL ERROR: Ineffective mark-compacts near heap limit Allocation failed mongoose update - JavaScript heap out of memory
-// Add the features data to the database
-// id,product_id,feature,value
-// fs.createReadStream("./legacy-data/features.csv")
-//     .pipe(parse({delimiter: ','}))
-//     .on('data', function(csvrow) {
-//         console.log('test1', csvrow); // this prints after every row is handled
-//         //do something with csvrow
-//       // console.log('test', typeof csvrow[0]);
-//         let convertedRecord = {
-//           // "id": Number(csvrow[1]),
-//           "feature": csvrow[2],
-//           "value": csvrow[3]
-//         }
-
-//         Product.update(
-//           { id: Number(csvrow[1]) },
-//           { $addToSet: { features: convertedRecord } },
-//           {},
-//           function(error, docs) {
-//             if (error) {
-//               console.log(error);
-//             } else {
-//               console.log(docs);
-//             }
-//           }
-//       );
-
-//         // records.push(convertedRecord);
-//         // records.push(csvrow);
-//     })
-//     .on('end',function() {
-//       //do something with csvData
-//       // console.log('test2', records); //this prints after all rows are handled
-//       // Product.insertMany(records, function(error, docs) {
-//       //   if (error) {
-//       //     console.log(error);
-//       //   } else {
-//       //     console.log(docs);
-//       //   }
-//       // });
-
-//       //get the current features
-//       //append the new feature
-//       //update the record with the current
-//     });
-
-// Add the features data to the database
-// id,current_product_id,related_product_id
-    // fs.createReadStream("./legacy-data/relatedsample.csv")
-    // .pipe(parse({delimiter: ','}))
-    // .on('data', function(csvrow) {
-    //     // console.log('test1', csvrow); // this prints after every row is handled
-    //     //do something with csvrow
-    //   // console.log('test', typeof csvrow[0]);
-    //     // let convertedRecord = {
-    //     //   // "id": Number(csvrow[1]),
-    //     //   "feature": csvrow[2],
-    //     //   "value": csvrow[3]
-    //     // }
-
-    //     Product.update(
-    //       { id: Number(csvrow[1]) },
-    //       { $addToSet: { related_products: Number(csvrow[2]) } },
-    //       {},
-    //       function(error, docs) {
-    //         if (error) {
-    //           console.log(error);
-    //         } else {
-    //           console.log(docs);
-    //         }
-    //       }
-    //   );
-
-    //     // records.push(convertedRecord);
-    //     // records.push(csvrow);
-    // })
-    // .on('end',function() {
-
-    //   console.log('Related products added'); //this prints after all rows are handled
-
-
-    //   //get the current features
-    //   //append the new feature
-    //   //update the record with the current
-    // });
-
-
-
-// console.log('test3', records); // this prints first
-
