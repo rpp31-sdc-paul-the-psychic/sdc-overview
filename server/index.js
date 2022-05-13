@@ -4,9 +4,7 @@ const port = 3000;
 const path = require('path');
 const db = require('../database/index.js');
 const Redis = require('redis');
-// const newrelic = require('newrelic')
 
-// // app.use(express.static(__dirname + '/../client/dist'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -40,7 +38,6 @@ app.get('/products/', (req, res) => {
     } else {
       let reformattedResults = [];
 
-      //future refactor - instead of returning all results, reformat to drop the features
       db.getProducts(page, count)
         .then((result) => {
           for (let singleProduct of result) {
@@ -79,11 +76,9 @@ app.get('/products/:product_id', (req, res) => {
     } else {
       db.getProductData(prod_id)
         .then((result) => {
-          //transform response to match formatting
           result.default_price = parseFloat(result.default_price).toFixed(2);
 
           redisClient.setex(`product:${prod_id}`, DEFAULT_EXPIRATION, JSON.stringify(result));
-          //return the transformed response
           res.status(200).send(result);
         })
         .catch((err) => {
